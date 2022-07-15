@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Managers\AdsManager;
+use App\Http\Requests\AdRequest;
 use App\Http\Resources\AdsResource;
 use App\Models\Ad;
 use App\Models\Photo;
@@ -19,18 +20,18 @@ class AdsController extends Controller
     }
 
     public function all($price, $date){
-        $ads = DB::table('ads')->orderBy('created_at', $date)->orderBy('price', $price)->paginate(10);
+        $ads = DB::table('ads')->orderBy('price', $price)->orderBy('created_at', $date)->paginate(10);
         foreach ($ads as $ad){
             $ad->photos = Photo::where('ad_id', $ad->id)->first()->link;
         }
         return AdsResource::collection($ads);
     }
 
-    public function create(Request $request){
+    public function create(AdRequest $request){
         if (count($request->link)>3){
             return "Число фото должно быть меньше или равно 3";
         }
-        $newAd = $this->manager->create($request);
+        $newAd = $this->manager->create($request->validated());
 
         return new Response($newAd->id, 200);
     }

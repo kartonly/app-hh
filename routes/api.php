@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('all/{price}/{date}', 'AdsController@all');
-Route::post('create', 'AdsController@create');
-Route::get('one/{id}', 'AdsController@getOne');
+Route::get('all/{price}/{date}', 'AdsController@all')->middleware('cors');
+Route::post('create', 'AdsController@create')->middleware('cors');
+Route::get('one/{id}', 'AdsController@getOne')->middleware('cors');

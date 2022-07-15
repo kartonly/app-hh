@@ -19,12 +19,12 @@ class AdsManager
 
     public function create($ad){
         $this->ad = new Ad;
-        $this->ad->name = $ad->name;
-        $this->ad->about = $ad->about;
-        $this->ad->price = $ad->price;
+        $this->ad->name = $ad['name'];
+        $this->ad->about = $ad['about'];
+        $this->ad->price = $ad['price'];
         $this->ad->save();
 
-        foreach ($ad->link as $item){
+        foreach ($ad['link'] as $item){
             $this->photo = new Photo;
             $this->photo->link = $item['link'];
             $this->photo->ad_id = $this->ad->id;
